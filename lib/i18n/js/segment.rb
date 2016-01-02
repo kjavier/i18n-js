@@ -30,11 +30,16 @@ module I18n
       def write_file(_file = self.file, _translations = self.translations)
         FileUtils.mkdir_p File.dirname(_file)
         File.open(_file, "w+") do |f|
+          f << %(var I18n = require('../i18n');\n)
+          
           f << %(#{self.namespace}.translations || (#{self.namespace}.translations = {});\n)
+          
           _translations.each do |locale, translations_for_locale|
             output_translations = I18n::JS.sort_translation_keys? ? Utils.deep_key_sort(translations_for_locale) : translations_for_locale
             f << %(#{self.namespace}.translations["#{locale}"] = I18n.extend((#{self.namespace}.translations["#{locale}"] || {}), #{print_json(output_translations)});\n)
           end
+
+          f << "module.exports = I18n;"
         end
       end
 
