@@ -15,6 +15,10 @@ Features:
 - Asset pipeline support
 - Lots more! :)
 
+## Version Notice
+The `master` branch (including this README) is for latest `3.0.0.rc` instead of `2.x`.
+
+
 ## Usage
 
 ### Installation
@@ -249,6 +253,20 @@ Set the `pretty_print` option if you would like whitespace and indentation in yo
 translations:
 - file: "public/javascripts/i18n/translations.js"
   pretty_print: true
+```
+
+
+#### Javscript Deep Merge (:js_extend option)
+
+By default, the output file Javascript will call the `I18n.extend` method to ensure that newly loaded locale
+files are deep-merged with any locale data already in memory. To disable this either globally or per-file,
+set the `js_extend` option to false
+
+```yaml
+js_extend: false  # this will disable Javascript I18n.extend globally
+translations:
+- file: "public/javascripts/i18n/translations.js"
+  js_extend: false  # this will disable Javascript I18n.extend for this file
 ```
 
 
