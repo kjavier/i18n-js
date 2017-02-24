@@ -24,6 +24,12 @@ describe("Translate", function(){
     expect(actual).toEqual(expected);
   });
 
+  it("returns missing message translation with provided locale for invalid scope", function(){
+    actual = I18n.t("invalid.scope", { locale: "ja" });
+    expected = '[missing "ja.invalid.scope" translation]';
+    expect(actual).toEqual(expected);
+  });
+
   it("returns guessed translation if missingBehaviour is set to guess", function(){
     I18n.missingBehaviour = 'guess'
     actual = I18n.t("invalid.thisIsAutomaticallyGeneratedTranslation");
@@ -146,6 +152,11 @@ describe("Translate", function(){
     expect(actual).toEqual("Warning!");
   });
 
+  it("uses default value for plural translation", function(){
+    actual = I18n.t("message", {defaultValue: { one: '%{count} message', other: '%{count} messages'}, count: 1});
+    expect(actual).toEqual("1 message");
+  });
+
   it("uses default value for unknown locale", function(){
     I18n.locale = "fr";
     actual = I18n.t("warning", {defaultValue: "Warning!"});
@@ -180,6 +191,7 @@ describe("Translate", function(){
   it("escapes $ when doing substitution (IE)", function(){
     I18n.locale = "en";
 
+    expect(I18n.t("paid", {price: "$0"})).toEqual("You were paid $0");
     expect(I18n.t("paid", {price: "$0.12"})).toEqual("You were paid $0.12");
     expect(I18n.t("paid", {price: "$1.35"})).toEqual("You were paid $1.35");
   });
